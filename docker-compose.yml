@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  app:
+    image: lab_ihor
+    container_name: lab_ihor_container
+    build:
+      context: .
+    ports:
+      - "8080:8080"
