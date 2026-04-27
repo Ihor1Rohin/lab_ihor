@@ -2,6 +2,7 @@ package com.ihor.lab_ihor.controller;
 
 import com.ihor.lab_ihor.model.Flight;
 import com.ihor.lab_ihor.service.FlightService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,19 +17,22 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    // GET /flights
+    // доступ: USER + ADMIN
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public List<Flight> getAllFlights() {
         return flightService.getAllFlights();
     }
 
-    // GET /flights/number/{flightNumber}
+    // доступ: USER + ADMIN
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/number/{flightNumber}")
     public List<Flight> getByFlightNumber(@PathVariable String flightNumber) {
         return flightService.getFlightsByFlightNumber(flightNumber);
     }
 
-    // POST /flights
+    // доступ: тільки ADMIN
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public Flight createFlight(@RequestBody Flight flight) {
         return flightService.createFlight(flight);
