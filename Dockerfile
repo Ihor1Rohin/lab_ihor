@@ -1,10 +1,6 @@
 FROM eclipse-temurin:21-jdk
-LABEL authors="Ihor"
-
 WORKDIR /app
-
-COPY build/libs/*.jar app.jar
-
+COPY build/libs/lab_ihor-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
