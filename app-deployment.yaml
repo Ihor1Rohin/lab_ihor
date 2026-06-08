@@ -18,3 +18,23 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://database-1.cyn4e04ie6r7.us-east-1.rds.amazonaws.com:5432/labdb"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "postgres"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "Furina1356_"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab-app
+spec:
+  type: NodePort
+  selector:
+    app: lab-app
+  ports:
+    - port: 8080
+      targetPort: 8080

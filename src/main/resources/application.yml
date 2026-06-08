@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://db:5432/mydb
-    username: user
-    password: password
+    url: jdbc:postgresql://database-1.cyn4e04ie6r7.us-east-1.rds.amazonaws.com:5432/labdb
+    username: postgres
+    password: Furina1356_
 
   jpa:
     hibernate:
