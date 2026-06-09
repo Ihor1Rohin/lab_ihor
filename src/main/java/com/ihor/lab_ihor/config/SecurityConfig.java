@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.http.HttpStatus;
 
 @Configuration
 @EnableMethodSecurity
@@ -43,9 +44,24 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/index.html", "/oauth2-demo.html", "/error/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(httpBasic -> {})
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/oauth2-demo.html", true)
+                        .failureUrl("/oauth2-demo.html?error=true")
+                )
+                .exceptionHandling(ex -> ex
+                        .defaultAuthenticationEntryPointFor(
+                                (request, response, authException) -> response.sendError(HttpStatus.UNAUTHORIZED.value()),
+                                request -> request.getRequestURI().equals("/me")
+                        )
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/oauth2-demo.html?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                )
                 .build();
     }
 }
